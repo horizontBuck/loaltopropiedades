@@ -1,0 +1,63 @@
+import { Component, AfterViewInit } from '@angular/core';
+import { Fancybox } from '@fancyapps/ui';
+import { Router } from '@angular/router';
+import { ScriptLoaderService } from '../../services/script-loader.service';
+@Component({
+  selector: 'app-detail',
+  standalone: true,
+  templateUrl: './detail.html',
+  styleUrl: './detail.scss'
+})
+export class Detail implements AfterViewInit {
+
+  constructor(
+    public scriptLoader: ScriptLoaderService,    private router: Router
+  ) {}
+
+  navigateTo(path: string) {
+    this.router.navigate([path]);
+  }
+
+  ngAfterViewInit(): void {
+    (Fancybox as any).bind("[data-fancybox='gallery']", {
+      Hash: false,
+      dragToClose: true,
+      animated: true,
+      showClass: "fancybox-fadeIn",
+      hideClass: "fancybox-fadeOut",
+      Toolbar: {
+        display: {
+          left: [],
+          middle: ["prev", "counter", "next"],
+          right: ["zoom", "fullscreen", "close"]
+        }
+      },
+      Plugins: {
+        Thumbs: {
+          type: "classic",
+          showOnStart: false
+        }
+      }
+    });
+  }
+
+  async loadScripts(): Promise<void> {
+    try {
+      await this.scriptLoader.loadAll([
+        // { src: 'js/jquery.fancybox.js', attr: { defer: 'true' } },
+        // { src: 'js/magnific-popup.min.js', attr: { defer: 'true' } },
+        // { src: 'js/lazysize.min.js', attr: { defer: 'true' } },
+        // { src: 'js/wow.min.js', attr: { defer: 'true' } },
+        // { src: 'js/jquery.nice-select.min.js', attr: { defer: 'true' } },
+        // { src: 'js/swiper-bundle.min.js', attr: { defer: 'true' } },
+        // { src: 'js/swiper.js', attr: { defer: 'true' } },
+        // { src: 'js/SmoothScroll.js', attr: { defer: 'true' } },
+        // { src: 'js/main.js', attr: { defer: 'true' } },
+      ]);
+    } catch (err) {
+      console.error('Error cargando scripts en Detail', err);
+    }
+  }
+
+
+}
